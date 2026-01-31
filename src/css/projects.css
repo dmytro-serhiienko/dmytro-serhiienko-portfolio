@@ -1,7 +1,6 @@
-.projects-title {
+/* .projects-title {
   font-size: 33px;
   font-weight: 600;
-  /* line-height: calc(28 / 24); */
   letter-spacing: -0.03em;
   text-align: center;
   text-transform: uppercase;
@@ -36,7 +35,117 @@
 
 @media (max-width: 768px) {
   .projects-list {
-    /* Змінюємо сітку на 1 колонку */
     grid-template-columns: 1fr;
+  }
+} */
+.projects-section {
+  width: 100%;
+  overflow: hidden;
+  background: #000;
+  padding: 100px 0;
+}
+
+.projects-track {
+  display: flex;
+  gap: 30px;
+  width: max-content;
+  cursor: grab;
+}
+
+.project-card {
+  position: relative;
+  width: 600px; /* Базова ширина для десктопа */
+  height: 400px;
+  flex-shrink: 0;
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.project-media,
+.project-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.project-img {
+  filter: brightness(0.4);
+  transition: transform 0.5s ease;
+}
+
+.project-card:hover .project-img {
+  transform: scale(1.05);
+}
+
+.project-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 5;
+  padding: 20px;
+}
+
+.project-overlay h3 {
+  color: #fff;
+  font-size: 2.5rem;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.project-buttons {
+  display: flex;
+  gap: 15px;
+}
+
+.project-buttons a {
+  padding: 12px 24px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+.btn-live {
+  background: #fff;
+  color: #000;
+}
+.btn-github {
+  border: 1px solid #fff;
+  color: #fff;
+}
+
+.project-buttons a:hover {
+  opacity: 0.8;
+  transform: translateY(-3px);
+}
+
+/* --- Mobile & Tablet --- */
+@media (max-width: 768px) {
+  .project-card {
+    width: 450px;
+    height: 300px;
+  }
+  .project-overlay h3 {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .project-card {
+    width: 300px;
+    height: 250px;
+  }
+  .project-overlay h3 {
+    font-size: 1.4rem;
+  }
+  .project-buttons {
+    flex-direction: column;
+    align-items: center;
   }
 }
