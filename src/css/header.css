@@ -1,273 +1,106 @@
-html {
-  interpolate-size: allow-keywords;
-  color-scheme: dark;
-}
-
-body {
-  margin: 0;
-  font-family: system-ui;
-  font-size: 2rem;
-  background: #000; /* Колір для решти сторінки нижче хедера */
-}
-
-/* 1. Header як головний екран з фоном */
+/* --- Скидання та основа --- */
 .header {
-  position: relative; /* Контекст для Anchor Positioning */
+  position: relative;
   min-height: 100vh;
   width: 100%;
   display: flex;
   flex-direction: column;
-
-  /* Налаштування фону */
   background-image: url("../images/pawel-czerwinski-5fx4r4qcdXA-unsplash.jpg");
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
+  overflow: hidden; /* Важливо: щоб нічого не вилазило за краї */
 }
 
-/* 2. Навігація та її складна анімація */
+/* --- НАВІГАЦІЯ --- */
 nav {
-  width: fit-content;
-  margin: 3rem auto;
-  padding: 8px;
-  border-radius: 8px;
+  /* Міняємо width: fit-content на більш гнучкий варіант */
+  width: max-content;
+  max-width: calc(100% - 20px); /* Гарантуємо відступи по боках */
+  margin: 2rem auto;
+  padding: 4px;
   position: relative;
   z-index: 10;
-
-  @supports (corner-shape: squircle) {
-    border-radius: 24px;
-    border-shape: squircle;
-  }
-
-  /* Якір за замовчуванням (коли миша не над меню) */
-  ul:has(:not(:hover)) {
-    anchor-name: --test;
-  }
-
-  /* "Лінза" - дублюємо фон хедера */
-  &::before {
-    content: "";
-    z-index: -2;
-    background-image: url("../images/pawel-czerwinski-5fx4r4qcdXA-unsplash.jpg");
-    background-attachment: fixed;
-    background-size: cover;
-    background-position: center;
-  }
-
-  /* Напівпрозорий шар поверх лінзи */
-  &::after {
-    content: "";
-    backdrop-filter: blur(2px);
-    background-color: hsl(200 100% 100% / 0.1);
-    z-index: -1;
-  }
-
-  /* Чорна підкладка всього меню */
-  & > ul {
-    position: relative;
-    padding: 0;
-    margin: 0;
-    list-style: none;
-    display: flex;
-
-    &::after {
-      content: "";
-      position: absolute;
-      z-index: -3;
-      inset: -8px;
-      border-radius: 8px;
-      background: hsl(0 0% 0% / 0.8);
-      backdrop-filter: blur(2px);
-
-      @supports (corner-shape: squircle) {
-        border-radius: 24px;
-        border-shape: squircle;
-      }
-    }
-  }
-
-  /* Спільні стилі для рухомого повзунка (переднього і заднього шару) */
-  &::before,
-  &::after {
-    border-radius: 8px;
-    position-anchor: --test;
-    position: absolute;
-
-    /* Прив'язка до якоря */
-    top: calc(anchor(bottom) - 4px);
-    left: calc(anchor(left) + 1rem);
-    right: calc(anchor(right) + 1rem);
-    bottom: anchor(bottom);
-
-    transition: 500ms;
-    transition-timing-function: linear(
-      0,
-      0.008 1.1%,
-      0.031 2.2%,
-      0.129 4.8%,
-      0.257 7.2%,
-      0.671 14.2%,
-      0.789 16.5%,
-      0.881 18.6%,
-      0.957 20.7%,
-      1.019 22.9%,
-      1.063 25.1%,
-      1.094 27.4%,
-      1.114 30.7%,
-      1.112 34.5%,
-      1.018 49.9%,
-      0.99 59.1%,
-      1
-    );
-  }
-
-  /* Стан при наведенні (повзунок розширюється на все посилання) */
-  &:has(a:hover)::before,
-  &:has(a:hover)::after {
-    top: anchor(top);
-    left: anchor(left);
-    right: anchor(right);
-    bottom: anchor(bottom);
-
-    @supports (corner-shape: squircle) {
-      corner-shape: squircle;
-      border-radius: 50%;
-    }
-  }
-
-  /* Специфічні заокруглення для крайніх пунктів */
-  &:has(li:first-of-type a:hover)::before,
-  &:has(li:first-of-type a:hover)::after {
-    @supports (corner-shape: squircle) {
-      border-radius: 32px 50% 50% 32px;
-    }
-  }
-
-  &:has(li:last-of-type a:hover)::before,
-  &:has(li:last-of-type a:hover)::after {
-    @supports (corner-shape: squircle) {
-      border-radius: 50% 32px 32px 50%;
-    }
-  }
-
-  a {
-    display: block;
-    padding: 1rem;
-    text-decoration: none;
-    color: white;
-    position: relative;
-    z-index: 5;
-
-    &:hover {
-      anchor-name: --test; /* Якір перестрибує сюди */
-    }
-  }
 }
 
-/* 3. Hero секція */
-.heroContainer {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  /* Це змушує заголовок залишитися зверху, а соцмережі піти вниз */
-  justify-content: space-between;
-
-  max-width: 375px;
-  margin: 0 auto;
-
-  /* Додаємо відступи, щоб текст не лип до меню, а кнопки — до краю екрана */
-  padding-top: 2rem;
-  padding-bottom: 3rem;
-  box-sizing: border-box;
-}
-
-.heroTitle {
-  width: 100%;
-  margin: 0; /* Прибираємо зайві марджини */
-  font-size: 50px;
-  font-weight: 500;
-  line-height: 100%;
-  letter-spacing: -0.03em;
-  text-transform: uppercase;
-  color: #fff;
-  margin-top: 10vh;
-}
-
-.heroSocial {
+/* Підкладка меню */
+nav > ul {
+  position: relative;
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-  gap: 8px;
+  align-items: center;
+  gap: 0;
   padding: 0;
   margin: 0;
-  list-style: none;
-  margin-top: auto;
 }
 
-.heroSocialItem {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 24px;
-  /* border: 1px solid rgba(250, 250, 250, 0.2); */
-  width: 37px;
-  height: 37px;
-  cursor: pointer;
-  transition: 400ms ease-in-out;
+nav > ul::after {
+  content: "";
+  position: absolute;
+  z-index: -3;
+  inset: -6px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
 }
 
-.heroSocialItem:last-child {
-  width: 178px;
-}
-
-.heroSocialItem:hover {
-  background-color: #fff;
-}
-
-.heroSocialLink {
-  color: #fff;
-  font-size: 14px;
+/* Посилання */
+nav a {
+  display: block;
+  padding: 0.8rem 1.2rem; /* Зменшили падінги */
   text-decoration: none;
-  transition: all 0.3s ease-in-out;
+  color: white;
+  position: relative;
+  z-index: 5;
+  font-size: 1.2rem; /* Адекватний розмір для мобільних */
+  white-space: nowrap; /* Щоб слова не розривалися */
 }
 
-.heroSocialItem:hover .heroSocialLink {
-  color: #000;
-}
+/* --- АДАПТИВНІСТЬ (БРЕЙКПОЙНТИ) --- */
 
-.ri-github-line,
-.ri-linkedin-fill {
-  font-size: 25px;
-}
-
-/* Медіа-запити */
-@media (min-width: 768px) {
-  .heroContainer {
-    max-width: 768px;
-  }
+@media (max-width: 768px) {
+  /* Зменшуємо заголовок HELLO... */
   .heroTitle {
-    font-size: 90px;
+    font-size: 32px !important; /* !important щоб перебити конфлікт */
+    line-height: 1.1;
+    padding: 0 20px;
+    margin-top: 5vh;
   }
-  .heroSocial {
-    justify-content: flex-end;
+
+  /* Стискаємо меню ще сильніше */
+  nav {
+    margin: 1rem auto;
   }
-  .heroSocialItem {
-    width: 55px;
-    height: 55px;
+
+  nav a {
+    padding: 0.6rem 0.8rem;
+    font-size: 1rem;
   }
-  .heroSocialItem:last-child {
-    width: 223px;
+
+  /* Вимикаємо fixed background - на мобілках він ламає верстку */
+  .header,
+  nav::before {
+    background-attachment: scroll !important;
   }
 }
 
-@media (min-width: 1440px) {
-  .heroContainer {
-    max-width: 1440px;
+@media (max-width: 420px) {
+  /* Якщо навіть так не влазить - зменшуємо шрифт до мінімуму */
+  nav a {
+    padding: 0.5rem 0.5rem;
+    font-size: 0.9rem;
   }
+
   .heroTitle {
-    max-width: 1175px;
-    margin-left: auto;
-    margin-right: auto;
+    font-size: 28px !important;
   }
+}
+
+/* Фікс для повзунка (лінії під посиланнями) */
+nav::before,
+nav::after {
+  /* Робимо лінію тоншою на мобільних */
+  height: 2px;
+  bottom: 0;
+  transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }

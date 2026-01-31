@@ -3,15 +3,6 @@
 @import url("/css/projects.css");
 @import url("/css/footer.css");
 
-:root {
-  --background: #0f171e;
-  --background-alt: #0f171e;
-  --background-hero: #0f171e;
-  --accent: #ed3b44;
-  --accent-hover: #e0373f;
-  --primary: #fafafa;
-}
-
 html {
   scroll-behavior: smooth;
 }
@@ -61,12 +52,6 @@ button {
 
 img {
   display: block;
-}
-
-svg {
-  color: var(--primary);
-  fill: var(--primary);
-  stroke: var(--primary);
 }
 
 @font-face {
