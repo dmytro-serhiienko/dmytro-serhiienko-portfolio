@@ -1,0 +1,340 @@
+@import "izitoast/dist/css/iziToast.min.css";
+/* ====Mobile styles====*/
+.footer {
+  position: relative;
+  margin: 0 auto;
+  max-width: 320px;
+}
+
+.footer .bg::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.2;
+  background-image: url(../images/work-together-bg.webp);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: 100%;
+  z-index: -1;
+}
+
+.footer .container {
+  /* margin: 0 auto; */
+  padding: 32px 16px;
+}
+.footer-title-wrapper {
+  display: inline;
+  margin-bottom: 64px;
+  max-width: 290px;
+}
+.footer-logo {
+  display: inline;
+  width: 44px;
+  height: 44px;
+  margin-right: 6px;
+}
+.footer-title {
+  display: inline;
+  font-weight: 500;
+  font-size: 40px;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  color: var(--primary);
+  margin: 0;
+}
+.footer-accent {
+  color: var(--accent);
+}
+.footer-title-part {
+  display: inline-flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.footer-form-wrapper {
+  margin: 64px 0;
+}
+
+.footer-form {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+}
+
+.footer-form-input {
+  background-color: var(--background);
+  color: var(--primary);
+  margin-bottom: 16px;
+  resize: none;
+  border: none;
+  width: 100%;
+  border-bottom: 1px solid var(--primary);
+  padding-bottom: 20px;
+  opacity: 0.5;
+}
+.footer-form-input:hover,
+.footer-form-input:focus {
+  color: var(--primary);
+  opacity: 1;
+}
+.footer-form-input::placeholder {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: -0.02em;
+  color: rgba(250, 250, 250, 0.6);
+  text-transform: uppercase;
+}
+.footer-form-input:not(:placeholder-shown):invalid {
+  border-bottom: 1px solid #e74a3b;
+}
+.footer-form-input:not(:placeholder-shown):valid {
+  border-bottom: 1px solid #3cbc81;
+}
+.footer-form-btn {
+  width: 100px;
+  height: 100px;
+  color: white;
+  background-color: #17212b;
+  border-radius: 20px;
+  margin-top: 32px;
+  cursor: pointer;
+  transition: background-color 400ms ease-in-out;
+  text-transform: uppercase;
+}
+
+.footer-form-btn:hover,
+.footer-form-btn:focus {
+  background-color: #1d2833;
+}
+
+.contacts {
+  font-style: normal;
+}
+
+.footer-contacts {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: row;
+  gap: 4px;
+  width: 300px;
+  list-style: none;
+}
+.footer-link-email,
+.footer-link-tel {
+  color: var(--primary);
+  border: 1px solid rgba(250, 250, 250, 0.2);
+  border-radius: 60px;
+  padding: 10px 12px;
+  width: 154px;
+  height: 37px;
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: -0.02em;
+  opacity: 1;
+  cursor: pointer;
+  transition: border-color 400ms ease-in-out;
+}
+.footer-link-tel {
+  width: 94px;
+}
+.footer-link-email:hover,
+.footer-link-email:focus,
+.footer-link-tel:hover,
+.footer-link-tel:focus {
+  border-color: var(--primary);
+}
+/* ====Modal==== */
+
+.footer-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(15, 15, 16, 0.6);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: 999;
+  transition:
+    opacity 400ms ease-in-out,
+    visibility 400ms ease-in-out;
+}
+.footer-backdrop.is-open,
+.footer-modal.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  overflow: hidden;
+  display: block;
+}
+.footer-modal {
+  position: absolute;
+  text-align: center;
+  padding: 64px 32px;
+  border-radius: 20px;
+  width: calc(100% - 32px);
+  height: 276px;
+  display: none;
+  overflow: auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--background);
+  border: 1px solid rgba(250, 250, 250, 0.1);
+}
+.footer-modal-head-text {
+  color: var(--primary);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: -0.4px;
+  margin-bottom: 16px;
+}
+.footer-modal-text {
+  color: var(--primary);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: -0.32px;
+}
+.footer-modal-close-svg {
+  stroke: var(--primary);
+  transition: 400ms ease-in-out;
+}
+.footer-modal-close-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 3px;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.footer-modal-close-btn:hover .footer-modal-close-svg {
+  stroke: var(--accent);
+}
+/* ====/Modal==== */
+
+/* ====/Mobile styles====*/
+
+/* ====Tablet styles==== */
+@media screen and (min-width: 768px) {
+  .footer {
+    max-width: 768px;
+  }
+  .footer .container {
+    max-width: 768px;
+    padding: 80px 32px 169px;
+  }
+  .footer-title-wrapper {
+    width: 542px;
+  }
+  .footer-logo {
+    width: 70px;
+    height: 70px;
+  }
+  .footer-title {
+    font-size: 64px;
+    letter-spacing: -0.03em;
+  }
+  .footer-form {
+    align-items: center;
+    flex-direction: row;
+    gap: 32px;
+  }
+  .footer-form-input {
+    width: 245px;
+  }
+  .footer-form-btn {
+    width: 150px;
+    height: 150px;
+    margin: 0;
+  }
+  .footer-contacts {
+    gap: 8px;
+    width: 450px;
+  }
+  .footer-link-email,
+  .footer-link-tel {
+    padding: 18px 32px;
+    font-size: 16px;
+  }
+  .footer-link-email {
+    width: 175px;
+    height: 55px;
+  }
+  .footer-link-tel {
+    width: 107px;
+    height: 55px;
+  }
+  .footer-modal {
+    width: 492px;
+    height: 246px;
+  }
+}
+
+/* ====/Tablet styles==== */
+
+/* ====Desktop styles==== */
+@media screen and (min-width: 1440px) {
+  .footer {
+    max-width: 1440px;
+  }
+  .footer .container {
+    position: relative;
+
+    margin: 0 auto;
+    padding: 80px 0 169px;
+    max-width: 1048px;
+  }
+  .footer-title-wrapper {
+    width: 542px;
+  }
+  .footer-logo {
+    margin-right: 20px;
+    width: 70px;
+    height: 70px;
+  }
+  .footer-title-part {
+    display: flex;
+    flex-direction: column;
+  }
+  .footer-form-input {
+    width: 390px;
+  }
+  .footer-form-btn {
+    margin-left: 76px;
+  }
+
+  .footer-link-email {
+    width: 239px;
+    height: 55px;
+    padding: 18px 30px;
+  }
+  .footer-link-tel {
+    width: 171px;
+    height: 55px;
+    padding: 18px 28px;
+  }
+}
+/* ====/Desktop styles==== */
+
+@media (min-resolution: 192dpi) {
+  .footer .bg::after {
+    background-image: url(../images/work-together-bg_2x.webp);
+  }
+}

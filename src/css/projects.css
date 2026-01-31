@@ -1,0 +1,42 @@
+.projects-title {
+  font-size: 33px;
+  font-weight: 600;
+  /* line-height: calc(28 / 24); */
+  letter-spacing: -0.03em;
+  text-align: center;
+  text-transform: uppercase;
+  color: var(--primary);
+  margin-bottom: 24px;
+}
+
+.projects-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.projects-item img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.project-img {
+  filter: grayscale(100%);
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    filter: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .projects-list {
+    /* Змінюємо сітку на 1 колонку */
+    grid-template-columns: 1fr;
+  }
+}
