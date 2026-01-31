@@ -1,106 +1,333 @@
-/* --- Скидання та основа --- */
+html {
+  interpolate-size: allow-keywords;
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui;
+  font-size: 30px;
+  background: #000; /* Колір для решти сторінки нижче хедера */
+}
+
+/* 1. Header як головний екран з фоном */
 .header {
-  position: relative;
+  position: relative; /* Контекст для Anchor Positioning */
   min-height: 100vh;
   width: 100%;
   display: flex;
   flex-direction: column;
+
+  /* Налаштування фону */
   background-image: url("../images/pawel-czerwinski-5fx4r4qcdXA-unsplash.jpg");
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
-  overflow: hidden; /* Важливо: щоб нічого не вилазило за краї */
 }
 
-/* --- НАВІГАЦІЯ --- */
+/* 2. Навігація та її складна анімація */
 nav {
-  /* Міняємо width: fit-content на більш гнучкий варіант */
-  width: max-content;
-  max-width: calc(100% - 20px); /* Гарантуємо відступи по боках */
-  margin: 2rem auto;
-  padding: 4px;
+  width: fit-content;
+  margin: 3rem auto;
+  padding: 8px;
+  border-radius: 8px;
   position: relative;
   z-index: 10;
+
+  @supports (corner-shape: squircle) {
+    border-radius: 24px;
+    border-shape: squircle;
+  }
+
+  /* Якір за замовчуванням (коли миша не над меню) */
+  ul:has(:not(:hover)) {
+    anchor-name: --test;
+  }
+
+  /* "Лінза" - дублюємо фон хедера */
+  &::before {
+    content: "";
+    z-index: -2;
+    background-image: url("../images/pawel-czerwinski-5fx4r4qcdXA-unsplash.jpg");
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+  }
+
+  /* Напівпрозорий шар поверх лінзи */
+  &::after {
+    content: "";
+    backdrop-filter: blur(2px);
+    background-color: hsl(200 100% 100% / 0.1);
+    z-index: -1;
+  }
+
+  /* Чорна підкладка всього меню */
+  & > ul {
+    position: relative;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    display: flex;
+
+    &::after {
+      content: "";
+      position: absolute;
+      z-index: -3;
+      inset: -8px;
+      border-radius: 8px;
+      background: hsl(0 0% 0% / 0.8);
+      backdrop-filter: blur(2px);
+
+      @supports (corner-shape: squircle) {
+        border-radius: 24px;
+        border-shape: squircle;
+      }
+    }
+  }
+
+  /* Спільні стилі для рухомого повзунка (переднього і заднього шару) */
+  &::before,
+  &::after {
+    border-radius: 8px;
+    position-anchor: --test;
+    position: absolute;
+
+    /* Прив'язка до якоря */
+    top: calc(anchor(bottom) - 4px);
+    left: calc(anchor(left) + 1rem);
+    right: calc(anchor(right) + 1rem);
+    bottom: anchor(bottom);
+
+    transition: 500ms;
+    transition-timing-function: linear(
+      0,
+      0.008 1.1%,
+      0.031 2.2%,
+      0.129 4.8%,
+      0.257 7.2%,
+      0.671 14.2%,
+      0.789 16.5%,
+      0.881 18.6%,
+      0.957 20.7%,
+      1.019 22.9%,
+      1.063 25.1%,
+      1.094 27.4%,
+      1.114 30.7%,
+      1.112 34.5%,
+      1.018 49.9%,
+      0.99 59.1%,
+      1
+    );
+  }
+
+  /* Стан при наведенні (повзунок розширюється на все посилання) */
+  &:has(a:hover)::before,
+  &:has(a:hover)::after {
+    top: anchor(top);
+    left: anchor(left);
+    right: anchor(right);
+    bottom: anchor(bottom);
+
+    @supports (corner-shape: squircle) {
+      corner-shape: squircle;
+      border-radius: 50%;
+    }
+  }
+
+  /* Специфічні заокруглення для крайніх пунктів */
+  &:has(li:first-of-type a:hover)::before,
+  &:has(li:first-of-type a:hover)::after {
+    @supports (corner-shape: squircle) {
+      border-radius: 32px 50% 50% 32px;
+    }
+  }
+
+  &:has(li:last-of-type a:hover)::before,
+  &:has(li:last-of-type a:hover)::after {
+    @supports (corner-shape: squircle) {
+      border-radius: 50% 32px 32px 50%;
+    }
+  }
+
+  a {
+    display: block;
+    padding: 1rem;
+    text-decoration: none;
+    color: white;
+    position: relative;
+    z-index: 5;
+
+    &:hover {
+      anchor-name: --test; /* Якір перестрибує сюди */
+    }
+  }
 }
 
-/* Підкладка меню */
-nav > ul {
-  position: relative;
+/* 3. Hero секція */
+.heroContainer {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  /* Це змушує заголовок залишитися зверху, а соцмережі піти вниз */
+  justify-content: space-between;
+
+  max-width: 375px;
+  margin: 0 auto;
+
+  /* Додаємо відступи, щоб текст не лип до меню, а кнопки — до краю екрана */
+  padding-top: 2rem;
+  padding-bottom: 3rem;
+  box-sizing: border-box;
+}
+
+.heroTitle {
+  width: 100%;
+  margin: 0; /* Прибираємо зайві марджини */
+  font-size: 50px;
+  font-weight: 500;
+  line-height: 100%;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  color: #fff;
+  margin-top: 10vh;
+}
+
+.heroSocial {
   display: flex;
   flex-direction: row;
-  align-items: center;
-  gap: 0;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 8px;
   padding: 0;
   margin: 0;
+  list-style: none;
+  margin-top: auto;
 }
 
-nav > ul::after {
-  content: "";
-  position: absolute;
-  z-index: -3;
-  inset: -6px;
-  border-radius: 12px;
-  background: rgba(0, 0, 0, 0.85);
-  backdrop-filter: blur(8px);
+.heroSocialItem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 24px;
+  /* border: 1px solid rgba(250, 250, 250, 0.2); */
+  width: 37px;
+  height: 37px;
+  cursor: pointer;
+  transition: 400ms ease-in-out;
 }
 
-/* Посилання */
-nav a {
-  display: block;
-  padding: 0.8rem 1.2rem; /* Зменшили падінги */
+.heroSocialItem:last-child {
+  width: 178px;
+}
+
+.heroSocialItem:hover {
+  background-color: #fff;
+}
+
+.heroSocialLink {
+  color: #fff;
+  font-size: 14px;
   text-decoration: none;
-  color: white;
-  position: relative;
-  z-index: 5;
-  font-size: 1.2rem; /* Адекватний розмір для мобільних */
-  white-space: nowrap; /* Щоб слова не розривалися */
+  transition: all 0.3s ease-in-out;
 }
 
-/* --- АДАПТИВНІСТЬ (БРЕЙКПОЙНТИ) --- */
+.heroSocialItem:hover .heroSocialLink {
+  color: #000;
+}
 
-@media (max-width: 768px) {
-  /* Зменшуємо заголовок HELLO... */
+.ri-github-line,
+.ri-linkedin-fill {
+  font-size: 25px;
+}
+
+/* Медіа-запити */
+@media (min-width: 768px) {
+  .heroContainer {
+    max-width: 768px;
+  }
   .heroTitle {
-    font-size: 32px !important; /* !important щоб перебити конфлікт */
-    line-height: 1.1;
-    padding: 0 20px;
-    margin-top: 5vh;
+    font-size: 90px;
   }
-
-  /* Стискаємо меню ще сильніше */
-  nav {
-    margin: 1rem auto;
+  .heroSocial {
+    justify-content: flex-end;
   }
+  .heroSocialItem {
+    width: 55px;
+    height: 55px;
+  }
+  .heroSocialItem:last-child {
+    width: 223px;
+  }
+}
 
-  nav a {
-    padding: 0.6rem 0.8rem;
+@media (min-width: 1440px) {
+  .heroContainer {
+    max-width: 1440px;
+  }
+  .heroTitle {
+    max-width: 1175px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+/* Адаптація для планшетів та мобільних */
+@media (max-width: 768px) {
+  body {
+    /* Зменшуємо базовий розмір, щоб 1rem був адекватним */
     font-size: 1rem;
   }
 
-  /* Вимикаємо fixed background - на мобілках він ламає верстку */
-  .header,
-  nav::before {
-    background-attachment: scroll !important;
+  nav {
+    /* Дозволяємо меню займати більше місця на екрані */
+    margin: 2rem auto;
+    padding: 4px;
+    width: 90%; /* Щоб не липло до країв */
+    max-width: fit-content;
   }
-}
 
-@media (max-width: 420px) {
-  /* Якщо навіть так не влазить - зменшуємо шрифт до мінімуму */
   nav a {
-    padding: 0.5rem 0.5rem;
-    font-size: 0.9rem;
+    /* Зменшуємо падінги, щоб влізло в один рядок */
+    padding: 0.7rem 0.8rem;
+    font-size: 1.1rem;
+  }
+
+  /* Коригуємо позиціонування лінії-повзунка для тонших екранів */
+  nav::before,
+  nav::after {
+    left: calc(anchor(left) + 0.5rem);
+    right: calc(anchor(right) + 0.5rem);
   }
 
   .heroTitle {
-    font-size: 28px !important;
+    font-size: 40px; /* Коригуємо заголовок, щоб не вилазив */
+    margin-top: 5vh;
+    text-align: center;
+  }
+
+  .heroContainer {
+    max-width: 90%;
+    padding-bottom: 2rem;
   }
 }
 
-/* Фікс для повзунка (лінії під посиланнями) */
-nav::before,
-nav::after {
-  /* Робимо лінію тоншою на мобільних */
-  height: 2px;
-  bottom: 0;
-  transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+/* Для зовсім маленьких телефонів (менше 480px) */
+@media (max-width: 480px) {
+  nav ul {
+    /* Якщо назви довгі, вони перейдуть на новий рядок */
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  nav a {
+    padding: 0.5rem 0.6rem;
+    font-size: 0.9rem;
+  }
+
+  /* Вимикаємо fixed background на мобільних, бо він часто глючить у Safari/Chrome */
+  .header,
+  nav::before {
+    background-attachment: scroll;
+  }
 }
