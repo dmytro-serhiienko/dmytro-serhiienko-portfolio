@@ -34,4 +34,4 @@ document.addEventListener("partial:loaded", (e) => {
     });
   });
 });
-console.log("about-me partial loaded");
+console.log("Hello!");
