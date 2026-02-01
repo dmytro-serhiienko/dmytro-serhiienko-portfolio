@@ -3,7 +3,6 @@ import { join } from "path";
 import { defineConfig, loadEnv } from "vite";
 import injectHTML from "vite-plugin-html-inject";
 import FullReload from "vite-plugin-full-reload";
-import SortCss from "postcss-sort-media-queries";
 
 export default defineConfig(({ command, mode }) => {
   // Завантаження змінних оточення з папки src
@@ -14,7 +13,6 @@ export default defineConfig(({ command, mode }) => {
       [command === "serve" ? "global" : "_global"]: {},
     },
     // Налаштування базового шляху для GitHub Pages
-    // При розробці (serve) використовується '/', при збірці (build) - назва репозиторію
     base: command === "build" ? "/dmytro-serhiienko-portfolio/" : "/",
 
     root: "src",
@@ -48,18 +46,10 @@ export default defineConfig(({ command, mode }) => {
       emptyOutDir: true,
     },
 
-    plugins: [
-      injectHTML(),
-      FullReload(["./src/**/**.html"]),
-      // Використання PostCSS плагіна через об'єкт конфігурації CSS
-    ],
+    plugins: [injectHTML(), FullReload(["./src/**/**.html"])],
     css: {
       postcss: {
-        plugins: [
-          SortCss({
-            sort: "mobile-first",
-          }),
-        ],
+        plugins: [],
       },
     },
   };
